@@ -21,14 +21,8 @@ box.style.visibility="hidden";
 const getInfo = async () => {
     box.style.visibility="hidden";
     watherImage.style.visibility="visible";
-    try {
         let url = `http://api.weatherapi.com/v1/current.json?key=130b44c27be74779913163747241006&q=${weatherLocation}`;
         let response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
         data = await response.json();
         temp_c.innerText = data.current.temp_c;
         name1.innerText=data.location.name;
@@ -36,16 +30,12 @@ const getInfo = async () => {
         text.innerText=data.current.condition.text;
         cloud.innerText=`${data.current.cloud}%`;
         humidity.innerText=`${data.current.humidity}%`;
-
         wind_mph.innerText=`${data.current.wind_mph}(m/h)`;
         wind_dir.innerText=data.current.wind_dir;
         uv.innerText=data.current.uv;
         gust_mph.innerText=`${data.current.gust_mph}(mph)`;
         pressure_mb.innerText=`${data.current.pressure_mb}(millibars)`;
         icon1.src=data.current.condition.icon;
-    } catch (error) {
-        console.error('Error fetching weather data:', error);
-    }
     box.style.visibility="visible";
     watherImage.style.visibility="hidden";
 };
