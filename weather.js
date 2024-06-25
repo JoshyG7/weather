@@ -1,3 +1,4 @@
+// Select DOM elements
 let Search = document.querySelector(".Search");
 let boxInput = document.querySelector(".box input");
 let temp_c = document.querySelector(".temp_c span");
@@ -15,10 +16,14 @@ let icon1 = document.querySelector(".icon img");
 let watherImage = document.querySelector(".watherImage");
 let box = document.querySelector(".box");
 
+// Initial weather location and data
 let weatherLocation = "India";
 let data;
+
+// Hide the weather box initially
 box.style.visibility = "hidden";
 
+// Function to fetch and display weather information
 const getInfo = async () => {
     box.style.visibility = "hidden";
     watherImage.style.visibility = "visible";
@@ -29,17 +34,20 @@ const getInfo = async () => {
             throw new Error('Failed to fetch weather data');
         }
         data = await response.json();
+        
+        // Update DOM elements with weather data
         temp_c.innerText = data.current.temp_c;
         name1.innerText = data.location.name;
         localtime.innerText = data.location.localtime;
         text.innerText = data.current.condition.text;
         cloud.innerText = `${data.current.cloud}%`;
         humidity.innerText = `${data.current.humidity}%`;
-        wind_mph.innerText = `${data.current.wind_mph}(m/h)`;
+        wind_mph.innerText = `${data.current.wind_mph} (m/h)`;
         wind_dir.innerText = data.current.wind_dir;
         uv.innerText = data.current.uv;
-        gust_mph.innerText = `${data.current.gust_mph}(mph)`;
-        pressure_mb.innerText = `${data.current.pressure_mb}(millibars)`;
+        gust_mph.innerText = `${data.current.gust_mph} (mph)`;
+        pressure_mb.innerText = `${data.current.pressure_mb} (millibars)`;
+        
         box.style.visibility = "visible";
         watherImage.style.visibility = "hidden";
     } catch (error) {
@@ -49,6 +57,7 @@ const getInfo = async () => {
     }
 };
 
+// Event listener for search button click
 Search.addEventListener("click", () => {
     weatherLocation = boxInput.value.trim(); // Trim any extra whitespace
     if (weatherLocation) { // Ensure the location is not empty
@@ -59,8 +68,9 @@ Search.addEventListener("click", () => {
     }
 });
 
+// Event listener for 'Enter' key press in input box
 boxInput.addEventListener("keyup", (e) => {
-    if (e.keyCode === 13) {
+    if (e.key === "Enter") {
         weatherLocation = boxInput.value.trim(); // Trim any extra whitespace
         if (weatherLocation) { // Ensure the location is not empty
             boxInput.value = "";
@@ -71,4 +81,5 @@ boxInput.addEventListener("keyup", (e) => {
     }
 });
 
+// Initial fetch of weather information
 getInfo();
